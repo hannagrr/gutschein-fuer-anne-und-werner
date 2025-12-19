@@ -91,7 +91,9 @@
             max-width: 90%; /* Begrenzung der Breite auf 90% des Containers */
             margin-left: auto; /* Zentrierung */
             margin-right: auto; /* Zentrierung */
-            word-wrap: break-word; /* Zeilenumbruch bei langen Wörtern */
+            word-break: keep-all; /* Verhindert unerwünschte Umbrüche innerhalb von Wörtern */
+            white-space: normal; /* Erlaubt normale Zeilenumbrüche */
+            hyphens: auto; /* Fügt Trennstriche bei Bedarf hinzu */
         }
 
         .captcha-box {
@@ -339,7 +341,7 @@
     <div class="container">
         <!-- Captcha Seite -->
         <div id="captchaPage">
-            <h1>Sicherheitsüberprüfung</h1>
+            <h1>Sicherheitsüber<wbr>prüfung</h1>
             <div class="captcha-box">
                 <div class="captcha-question">Wähle alle typisch israelischen Speisen aus</div>
                 <div class="captcha-images">
@@ -559,6 +561,7 @@
 </body>
 
 </html>
+
 
 
 
