@@ -36,18 +36,22 @@
         }
         @media (max-width: 600px) {
         html { background-image: url('images/background-mobile.jpg'); }
-        
-        .captcha-box {
-            padding: 20px;
-        }
 
         .captcha-images {
             grid-template-columns: repeat(2, 1fr); /* Statt 3 Spalten nur 2 */
             gap: 5px; /* Weniger Abstand zwischen den Elementen */
         }
 
-        .captcha-item {
-            font-size: 2em; /* Kleinere Schriftgröße */
+        .captcha-item {   
+            aspect-ratio: 1; /* Quadratische Elemente */
+            width: 100%; /* Volle Breite innerhalb der Spalte */
+            height: auto; /* Automatische Höhe */
+        }
+
+        .captcha-item img {
+            width: 100%; /* Bild passt sich der Breite des Containers an */
+            height: auto; /* Höhe wird proportional angepasst */
+            border-radius: 8px; /* Gleiche Abrundung wie der Container */
         }
 
         .captcha-question {
@@ -544,4 +548,5 @@
 </body>
 
 </html>
+
 
