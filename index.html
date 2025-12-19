@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Überraschung wartet...</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Sora', sans-serif; /*Open Sans*/
+            background-image: url('images/background.png');
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-color: #1a1a2e; /* Fallback */
+            min-height: 100vh;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #f0f0f0;
+            padding: 20px;
+        }
+    
+        @media (max-width: 1024px) {
+        html { background-image: url('images/background-tablet.jpg'); }
+        }
+        @media (max-width: 600px) {
+        html { background-image: url('images/background-mobile.jpg'); }
+        }
+
+        /* Überschriften: Montserrat */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Reem Kufi', sans-serif; /*Abula*/
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        h1 {
+            font-size: 2em;
+            margin-bottom: 30px;
+            text-align: center;
+            color: #f4a261;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .captcha-box {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .captcha-question {
+            color: #333;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .captcha-images {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .captcha-item {
+            aspect-ratio: 1;
+            border: 3px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            background: #f9f9f9;
+        }
+
+        .captcha-item:hover {
+            border-color: #f4a261;
+            transform: scale(1.05);
+        }
+
+        .captcha-item.selected {
+            border-color: #2a9d8f;
+            background: #e8f5f3;
+            box-shadow: 0 0 10px rgba(42, 157, 143, 0.3);
+        }
+
+        .question {
+            margin: 30px 0;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s;
+        }
+
+        .question.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .question label {
+            display: block;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            color: #f4a261;
+        }
+
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .option-btn {
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(244, 162, 97, 0.5);
+            border-radius: 25px;
+            color: #f0f0f0;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1em;
+        }
+
+        .option-btn:hover {
+            background: rgba(244, 162, 97, 0.2);
+            border-color: #f4a261;
+            transform: translateY(-2px);
+        }
+
+        .option-btn.selected {
+            background: #f4a261;
+            border-color: #f4a261;
+            color: #1a1a2e;
+            font-weight: bold;
+        }
+
+        input[type="date"] {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 2px solid rgba(244, 162, 97, 0.5);
+            background: rgba(255, 255, 255, 0.1);
+            color: #f0f0f0;
+            font-size: 1em;
+            margin-top: 10px;
+        }
+
+        input[type="date"]:focus {
+            outline: none;
+            border-color: #f4a261;
+        }
+
+        .restaurant-link {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(42, 157, 143, 0.2);
+            border-radius: 10px;
+            border-left: 4px solid #2a9d8f;
+        }
+
+        .restaurant-link a {
+            color: #2a9d8f;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .restaurant-link a:hover {
+            text-decoration: underline;
+        }
+
+        .submit-btn {
+            display: block;
+            margin: 30px 0 0 auto;
+            padding: 15px 40px;
+            background: #f4a261;
+            color: #1a1a2e;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(244, 162, 97, 0.3);
+        }
+
+        .submit-btn:hover {
+            background: #e76f51;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(244, 162, 97, 0.4);
+        }
+
+        .submit-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        .voucher-page {
+            text-align: center;
+        }
+
+        .voucher-card {
+            background: white;
+            color: #333;
+            padding: 40px;
+            border-radius: 15px;
+            margin: 30px 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .voucher-card h2 {
+            color: #2a9d8f;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .voucher-card .restaurant-name {
+            color: #f4a261;
+            font-size: 2em;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+
+        .voucher-details {
+            margin: 30px 0;
+            line-height: 2;
+            font-size: 1.1em;
+        }
+
+        .voucher-emoji {
+            font-size: 4em;
+            margin: 20px 0;
+        }
+
+        .download-btn {
+            padding: 15px 40px;
+            background: #2a9d8f;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+
+        .download-btn:hover {
+            background: #21867a;
+            transform: translateY(-2px);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .verify-btn {
+            width: 100%;
+            padding: 15px;
+            background: #2a9d8f;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .verify-btn:hover {
+            background: #21867a;
+        }
+
+        .error-message {
+            color: #e76f51;
+            text-align: center;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Captcha Seite -->
+        <div id="captchaPage">
+            <h1>Sicherheitsüberprüfung</h1>
+            <div class="captcha-box">
+                <div class="captcha-question">Wähle alle typisch israelischen Speisen aus</div>
+                <div class="captcha-images">
+                    <div class="captcha-item" data-type="israel" onclick="toggleCaptcha(this)" tabindex="0">
+                    <img src="images/captcha/hummus.jpg" width="100" height="100">
+                    </div>
+                    <div class="captcha-item" data-type="israel"  onclick="toggleCaptcha(this)" tabindex="0">
+                    <img src="images/captcha/falafel.jpg" width="100" height="100">
+                    </div>
+                    <div class="captcha-item" data-type="other" onclick="toggleCaptcha(this)" tabindex="0">
+                    <img src="images/captcha/sushi.jpg" width="100" height="100">
+                    </div>
+                    <div class="captcha-item" data-type="other"  onclick="toggleCaptcha(this)" tabindex="0">
+                    <img src="images/captcha/pizza.jpg" width="100" height="100">
+                    </div>
+                    <div class="captcha-item" data-type="israel" onclick="toggleCaptcha(this)" tabindex="0">
+                    <img src="images/captcha/shakshuka.jpg" width="100" height="100">
+                    </div>
+                    <div class="captcha-item" data-type="other"  onclick="toggleCaptcha(this)" tabindex="0">
+                    <img src="images/captcha/burger.jpg" width="100" height="100">
+                    </div>
+                </div>
+                <button class="verify-btn" onclick="verifyCaptcha()">Überprüfen</button>
+                <div id="captchaError" class="error-message hidden">Bitte wähle alle israelischen Gerichte aus!</div>
+            </div>
+        </div>
+
+        <!-- Gutschein Seite -->
+        <div id="voucherPage" class="hidden">
+            <h1>Hier wartet ein Gutschein auf euch!</h1>
+            
+            <div class="question visible">
+                <label>Was für ein Gutschein wird das sein?</label>
+                <div class="options">
+                    <button class="option-btn" onclick="selectOption('type', 'zoo', this)">Zoo</button>
+                    <button class="option-btn" onclick="selectOption('type', 'wine', this)">Weinverkostung</button>
+                    <button class="option-btn" onclick="selectOption('type', 'restaurant', this)">Restaurant</button>
+                    <button class="option-btn" onclick="selectOption('type', 'theater', this)">Theater</button>
+                </div>
+            </div>
+
+            <div id="cuisineQuestion" class="question">
+                <label>Was für ein Restaurant wird es sein?</label>
+                <div class="options">
+                    <button class="option-btn" onclick="selectOption('cuisine', 'italian', this)">Italienisch</button>
+                    <button class="option-btn" onclick="selectOption('cuisine', 'japanese', this)">Japanisch</button>
+                    <button class="option-btn" onclick="selectOption('cuisine', 'israeli', this)">Israelisch</button>
+                    <button class="option-btn" onclick="selectOption('cuisine', 'french', this)">Französisch</button>
+                </div>
+            </div>
+
+            <div id="restaurantDetails" class="question">
+                <div class="restaurant-link">
+                    <p>🍽️ Unser Restaurant:</p>
+                    <a href="https://www.nightkitchenberlin.com/restaurant" target="_blank">Night Kitchen Berlin</a>
+                </div>
+                <label style="margin-top: 20px;">Wann wollt ihr den Gutschein einlösen?</label>
+                <input type="date" id="dateInput" onchange="updateDate()">
+            </div>
+
+            <button id="submitBtn" class="submit-btn hidden" onclick="generateVoucher()">Fertig</button>
+        </div>
+
+        <!-- Finale Gutschein-Ansicht -->
+        <div id="finalPage" class="hidden voucher-page">
+            <div class="voucher-card" id="voucherCard">
+                <div class="voucher-emoji">🎁</div>
+                <h2>Restaurant Gutschein</h2>
+                <div class="restaurant-name">Night Kitchen Berlin</div>
+                <div class="voucher-details">
+                    <p>🍽️ <strong>Israelische Küche</strong></p>
+                    <p>📍 Oranienburger Str. 32, 10117 Berlin</p>
+                    <p id="voucherDate"></p>
+                    <p style="margin-top: 30px; font-style: italic;">Auf einen wundervollen gemeinsamen Abend!</p>
+                </div>
+            </div>
+            <button class="download-btn" onclick="downloadVoucher()">📥 Als PDF herunterladen</button>
+        </div>
+    </div>
+
+    <!-- jsPDF Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <script>
+        const state = {
+            captchaSelected: new Set(),
+            type: null,
+            cuisine: null,
+            date: null
+        };
+
+        function toggleCaptcha(el) {
+            el.classList.toggle('selected');
+            const type = el.getAttribute('data-type');
+            if (el.classList.contains('selected')) {
+                state.captchaSelected.add(el);
+            } else {
+                state.captchaSelected.delete(el);
+            }
+        }
+
+        function verifyCaptcha() {
+            const selected = Array.from(state.captchaSelected);
+            const correctCount = selected.filter(el => el.getAttribute('data-type') === 'israel').length;
+            const hasWrongSelection = selected.some(el => el.getAttribute('data-type') !== 'israel');
+            
+            if (correctCount === 3 && !hasWrongSelection) {
+                document.getElementById('captchaPage').classList.add('hidden');
+                document.getElementById('voucherPage').classList.remove('hidden');
+            } else {
+                document.getElementById('captchaError').classList.remove('hidden');
+                setTimeout(() => {
+                    document.getElementById('captchaError').classList.add('hidden');
+                }, 3000);
+            }
+        }
+
+        function selectOption(category, value, btn) {
+            const parent = btn.parentElement;
+            parent.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            state[category] = value;
+
+            if (category === 'type' && value === 'restaurant') {
+                setTimeout(() => {
+                    document.getElementById('cuisineQuestion').classList.add('visible');
+                }, 300);
+            }
+
+            if (category === 'cuisine' && value === 'israeli') {
+                setTimeout(() => {
+                    document.getElementById('restaurantDetails').classList.add('visible');
+                }, 300);
+            }
+
+            checkCompletion();
+        }
+
+        function updateDate() {
+            state.date = document.getElementById('dateInput').value;
+            checkCompletion();
+        }
+
+        function checkCompletion() {
+            if (state.type === 'restaurant' && state.cuisine === 'israeli' && state.date) {
+                document.getElementById('submitBtn').classList.remove('hidden');
+            }
+        }
+
+        function generateVoucher() {
+            const dateObj = new Date(state.date);
+            const formattedDate = dateObj.toLocaleDateString('de-DE', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            
+            document.getElementById('voucherDate').innerHTML = `📅 <strong>${formattedDate}</strong>`;
+            document.getElementById('voucherPage').classList.add('hidden');
+            document.getElementById('finalPage').classList.remove('hidden');
+        }
+
+        function downloadVoucher() {
+            const { jsPDF } = window.jspdf;
+
+            const dateText = document.getElementById('voucherDate').textContent;
+
+            const doc = new jsPDF({
+                unit: "mm",
+                format: "a4"
+            });
+
+            let y = 30;
+
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(18);
+            doc.text("RESTAURANT GUTSCHEIN", 20, y);
+            y += 12;
+
+            doc.setFontSize(10);
+            doc.text("━━━━━━━━━━━━━━━━━━━━━━━━━━━━", 20, y);
+            y += 15;
+
+            doc.setFontSize(14);
+            doc.text("Night Kitchen Berlin", 20, y);
+            y += 8;
+
+            doc.setFontSize(12);
+            doc.text("Israelische Küche", 20, y);
+            y += 15;
+
+            doc.setFont("helvetica", "normal");
+            doc.setFontSize(11);
+            doc.text(dateText, 20, y);
+            y += 10;
+
+            doc.text("Oranienburger Str. 32", 20, y);
+            y += 6;
+            doc.text("10117 Berlin", 20, y);
+            y += 15;
+
+            doc.text("Auf einen wundervollen gemeinsamen Abend!", 20, y);
+            y += 20;
+
+            doc.setFontSize(10);
+            doc.text("━━━━━━━━━━━━━━━━━━━━━━━━━━━━", 20, y);
+            y += 8;
+
+            doc.text("www.nightkitchenberlin.com/restaurant", 20, y);
+
+            doc.save("Restaurant_Gutschein_Night_Kitchen.pdf");
+            
+            alert('Gutschein wurde heruntergeladen! (Als TXT-Datei - kann in ein PDF umgewandelt werden)');
+        }
+    </script>
+</body>
+</html>
