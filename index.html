@@ -36,7 +36,10 @@
         }
         @media (max-width: 600px) {
         html { background-image: url('images/background-mobile.jpg'); }
-
+            
+        h1 {
+        font-size: 1.5em; /* Kleinere Schriftgröße für Mobilgeräte */}
+            
         .captcha-images {
             grid-template-columns: repeat(2, 1fr); /* Statt 3 Spalten nur 2 */
             gap: 5px; /* Weniger Abstand zwischen den Elementen */
@@ -85,6 +88,10 @@
             text-align: center;
             color: #f4a261;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            max-width: 90%; /* Begrenzung der Breite auf 90% des Containers */
+            margin-left: auto; /* Zentrierung */
+            margin-right: auto; /* Zentrierung */
+            word-wrap: break-word; /* Zeilenumbruch bei langen Wörtern */
         }
 
         .captcha-box {
@@ -552,6 +559,7 @@
 </body>
 
 </html>
+
 
 
 
