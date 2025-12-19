@@ -36,6 +36,23 @@
         }
         @media (max-width: 600px) {
         html { background-image: url('images/background-mobile.jpg'); }
+        
+        .captcha-box {
+            padding: 20px;
+        }
+
+        .captcha-images {
+            grid-template-columns: repeat(2, 1fr); /* Statt 3 Spalten nur 2 */
+            gap: 5px; /* Weniger Abstand zwischen den Elementen */
+        }
+
+        .captcha-item {
+            font-size: 2em; /* Kleinere Schriftgröße */
+        }
+
+        .captcha-question {
+            font-size: 1em; /* Kleinere Schriftgröße */
+        } 
         }
 
         /* Überschriften: Montserrat */
@@ -527,3 +544,4 @@
 </body>
 
 </html>
+
