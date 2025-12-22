@@ -514,46 +514,58 @@
                 unit: "mm",
                 format: "a4"
             });
+            
+            // Hintergrundbild laden
+            const img = new Image();
+            img.src = "images/gutschein-hintergrund.png";
 
-            let y = 30;
+            img.onload = function () {
+                // A4: 210 × 297 mm
+                doc.addImage(img, "JPG", 0, 0, 210, 297);
+                
+                let y = 30;
 
-            doc.setFont("helvetica", "bold");
-            doc.setFontSize(18);
-            doc.text("RESTAURANT GUTSCHEIN", 20, y);
-            y += 12;
+                doc.setFont("helvetica", "bold");
+                doc.setFontSize(18);
+                doc.text("RESTAURANT GUTSCHEIN", 105, y, { align: "center" });
+                y += 12;
 
-            doc.setFontSize(10);
-            doc.text("━━━━━━━━━━━━━━━━━━━━━━━━━━━━", 20, y);
-            y += 15;
+                doc.setDrawColor(0);
+                doc.setLineWidth(0.5);
+                doc.line(40, y, 170, y); // von links nach rechts
+                y += 10;
 
-            doc.setFontSize(14);
-            doc.text("Night Kitchen Berlin", 20, y);
-            y += 8;
+                doc.setFontSize(14);
+                doc.text("Night Kitchen Berlin", 105, y, { align: "center" });
+                y += 8;
 
-            doc.setFontSize(12);
-            doc.text("Israelische Küche", 20, y);
-            y += 15;
+                doc.setFontSize(12);
+                doc.text("Israelische Küche", 105, y, { align: "center" });
+                y += 15;
 
-            doc.setFont("helvetica", "normal");
-            doc.setFontSize(11);
-            doc.text(dateText, 20, y);
-            y += 10;
+                doc.setFont("helvetica", "normal");
+                doc.setFontSize(11);
+                doc.text(dateText, 105, y, { align: "center" });
+                y += 10;
 
-            doc.text("Oranienburger Str. 32", 20, y);
-            y += 6;
-            doc.text("10117 Berlin", 20, y);
-            y += 15;
+                doc.text("Oranienburger Str. 32", 105, y, { align: "center" });
+                y += 6;
+                doc.text("10117 Berlin", 105, y, { align: "center" });
+                y += 15;
 
-            doc.text("Auf einen wundervollen gemeinsamen Abend!", 20, y);
-            y += 20;
+                doc.text("Auf einen wundervollen gemeinsamen Abend!", 105, y, { align: "center" });
+                y += 20;
 
-            doc.setFontSize(10);
-            doc.text("━━━━━━━━━━━━━━━━━━━━━━━━━━━━", 20, y);
-            y += 8;
+                doc.setDrawColor(0);
+                doc.setLineWidth(0.5);
+                doc.line(40, y, 170, y); // von links nach rechts
+                y += 10;
 
-            doc.text("www.nightkitchenberlin.com/restaurant", 20, y);
 
-            doc.save("Restaurant_Gutschein_Night_Kitchen.pdf");
+                doc.text("www.nightkitchenberlin.com/restaurant", 105, y, { align: "center" });
+
+                doc.save("Restaurant_Gutschein_Night_Kitchen.pdf");
+            }
             
             alert('Gutschein wurde heruntergeladen!');
         }
@@ -561,6 +573,7 @@
 </body>
 
 </html>
+
 
 
 
