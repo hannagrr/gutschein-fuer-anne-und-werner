@@ -508,7 +508,11 @@
         function downloadVoucher() {
             const { jsPDF } = window.jspdf;
 
-            const dateText = document.getElementById('voucherDate').textContent;
+            const dateText = document
+                            .getElementById('voucherDate')
+                            .textContent
+                            .replace("📅", "")
+                            .trim();
 
             const doc = new jsPDF({
                 unit: "mm",
@@ -574,6 +578,7 @@
 </body>
 
 </html>
+
 
 
 
